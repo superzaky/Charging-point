@@ -20,13 +20,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch(v.getId()) {
                     case R.id.btnLinkToChargingPointsMapScreen:
-                        Intent i = new Intent(getApplicationContext(),
-                                AllChargingPoints.class);
-                        startActivity(i);
-                        finish();
+
                         break;
                     case R.id.btnLinkToChargingPointsScreen:
-
+                        Intent i = new Intent(getApplicationContext(),
+                                AllStores.class);
+                        startActivity(i);
+                        finish();
                         break;
                 }
             }

@@ -1,22 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="25dp"
+    >
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/app_title"
         android:textSize="20dp"
-         />
+        android:layout_marginBottom="50dp"/>
 
-    <Button android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/btn_maps"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:layout_marginBottom="50dp"
+        android:id="@+id/btnLinkToChargingPointsMapScreen" />
 
-    <Button android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/btn_list_view"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:id="@+id/btnLinkToChargingPointsScreen" />
 
 </LinearLayout>

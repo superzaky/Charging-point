@@ -15,11 +15,7 @@ public class AllStores extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_all_stores);
-        new StoreService().getSubprises();
-
-//        for(int i=1; i<11; i++) {
-//            System.out.println("Count is: "+ subprises.iterator().next()  );
-//        }
-
+        List<Store> subprises = new StoreService().getSubprises();
+        System.out.println("AllStores (Activity) - subprise "+subprises);
     }
 }

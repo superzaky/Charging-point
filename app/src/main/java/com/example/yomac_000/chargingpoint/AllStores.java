@@ -13,7 +13,6 @@ public class AllStores extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Response<List<Store>> subprises = new StoreService().getSubprises();
         System.out.println("AllStores (Activity) - subprise " + subprises);
         setContentView(R.layout.activity_all_stores);

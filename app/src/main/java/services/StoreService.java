@@ -32,28 +32,33 @@ public class StoreService {
         return getStores();
     }
 
-    private class LongOperation extends AsyncTask<String, Void, String> {
+    private class LongOperation extends AsyncTask<String, Void, Response<List<Store>>> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Response<List<Store>> doInBackground(String... params) {
             System.out.println("doInBackground executed second");
-
-            return " doInBackground Executed";
+            try {
+                Call<List<Store>> call = subpriseAPI.listStores();
+                stores=call.execute();
+                Iterator it=stores.body().iterator();
+//                while(it.hasNext())
+//                    System.out.println(((Store)it.next()).getSTREET());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return stores;
         }
 
         @Override
         protected void onPreExecute() {
+            //Can't put the call here because this is the main thread
             System.out.println("onPreExecute first");
-            Call<List<Store>> call = subpriseAPI.listStores();
-            try {
-                stores=call.execute();
-                Iterator it=stores.body().iterator();
-//                while(it.hasNext())
-//                    System.out.println("Stores "+((Store)it.next()).getSTREET());
-                setStores(stores);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+
+        @Override
+        protected void onPostExecute(Response<List<Store>> result) {
+            //Can't put the call here because this is the main thread
+            setStores(stores);
         }
     }
 

@@ -1,15 +1,13 @@
 package services;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import java.util.ArrayList;
+import android.os.AsyncTask;
+
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
 import api.SubpriseAPI;
 import model.Store;
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -20,16 +18,7 @@ import retrofit.Retrofit;
 public class StoreService {
 
     public static final String BASE_URL = "http://getairport.com/subprise/";
-    List<Store> stores;
-
-    public List<Store> getStores() {
-        return stores;
-    }
-
-    public void setStores(List<Store> stores) {
-        this.stores = stores;
-    }
-
+    Response<List<Store>> stores;
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -37,28 +26,43 @@ public class StoreService {
 
     SubpriseAPI subpriseAPI = retrofit.create(SubpriseAPI.class);
 
-    public List<Store> getSubprises() {
-        Call<List<Store>> call = subpriseAPI.listStores();
-        call.enqueue(new Callback<List<Store>>() {
-
-            @TargetApi(Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onResponse(Response<List<Store>> response, Retrofit retrofit) {
-                Iterator it=response.body().iterator();
-                List<Store> stores = new ArrayList<Store>();
-                while(it.hasNext())
-                    stores.add((Store)it.next());
-                    //System.out.println(((Store)it.next()).getSTREET());
-                System.out.println("OnResponse (StoreService.java) - stores "+stores);
-                setStores(stores);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
+    public Response<List<Store>> getSubprises() {
+        new LongOperation().execute("");
         System.out.println("getStores (StoreService.java) value "+ getStores());
         return getStores();
     }
+
+    private class LongOperation extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            System.out.println("doInBackground executed second");
+
+            return " doInBackground Executed";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            System.out.println("onPreExecute first");
+            Call<List<Store>> call = subpriseAPI.listStores();
+            try {
+                stores=call.execute();
+                Iterator it=stores.body().iterator();
+//                while(it.hasNext())
+//                    System.out.println("Stores "+((Store)it.next()).getSTREET());
+                setStores(stores);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Response<List<Store>> getStores() {
+        return stores;
+    }
+
+    public void setStores(Response<List<Store>> stores) {
+        this.stores = stores;
+    }
+
 }

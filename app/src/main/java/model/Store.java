@@ -1,70 +1,89 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by yomac_000 on 16-12-2015.
  */
 public class Store {
-    String FACEBOOK_ID;
-    String STORE_NAME;
-    String STREET;
-    String ZIP_CODE;
-    String CITY;
-    double LONGITUDE;
-    double LATITUDE;
+    @SerializedName("FACEBOOK ID") private String facebookID;
+    @SerializedName("STORE NAME") private String name;
+    @SerializedName("STREET") private String street;
+    @SerializedName("ZIP CODE") private String zipCode;
+    @SerializedName("CITY") private String city;
+    @SerializedName("LONGITUDE") private double longitude;
+    @SerializedName("LATITUDE") private double latitude;
 
-    public String getSTORE_NAME() {
-        return STORE_NAME;
+    public Store(String facebookID, String name, String street, String zipCode, String city, double longitude, double latitude) {
+        this.facebookID = facebookID;
+        this.name = name;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
-    public void setSTORE_NAME(String STORE_NAME) {
-        this.STORE_NAME = STORE_NAME;
+    public Store(){}
+
+    public String getFacebookID() {
+        return facebookID;
     }
 
-    public double getLONGITUDE() {
-        return LONGITUDE;
+    public void setFacebookID(String facebookID) {
+        this.facebookID = facebookID;
     }
 
-    public void setLONGITUDE(double LONGITUDE) {
-        this.LONGITUDE = LONGITUDE;
+    public String getStreet() {
+        return street;
     }
 
-    public double getLATITUDE() {
-        return LATITUDE;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public void setLATITUDE(double LATITUDE) {
-        this.LATITUDE = LATITUDE;
+    public String getName() {
+        return name;
     }
 
-    public String getCITY() {
-        return CITY;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setCITY(String CITY) {
-        this.CITY = CITY;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public String getZIP_CODE() {
-        return ZIP_CODE;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
-    public void setZIP_CODE(String ZIP_CODE) {
-        this.ZIP_CODE = ZIP_CODE;
+    public String getCity() {
+        return city;
     }
 
-    public String getFACEBOOK_ID() {
-        return FACEBOOK_ID;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public void setFACEBOOK_ID(String FACEBOOK_ID) {
-        this.FACEBOOK_ID = FACEBOOK_ID;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public String getSTREET() {
-        return STREET;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public void setSTREET(String STREET) {
-        this.STREET = STREET;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return name ;
     }
 }

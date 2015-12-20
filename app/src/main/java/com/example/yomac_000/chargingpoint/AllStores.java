@@ -3,8 +3,12 @@ package com.example.yomac_000.chargingpoint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,59 +24,65 @@ import services.StoreService;
 public class AllStores extends Activity {
     private ListView lv;
     Context context;
+    Response<List<Store>> subprises;
+    Iterator it;
+    List<Store> subprisesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_stores);
         lv = (ListView) findViewById(R.id.store_list);
-        Response<List<Store>> subprises;
         try {
-            subprises = new StoreService().getSubprises();
-            Iterator it = subprises.body().iterator();
-            List<String> subprisesList = new ArrayList<String>();
-
-            int i = 0;
-            while(it.hasNext()) {
-                i++;
-                subprisesList.add((String) it.next());
-            }
-            StoreArrayAdapter stringArrayAdapter = new StoreArrayAdapter(
-                    getApplicationContext(),
-                    lv,
-                    subprisesList);
-        } catch (IOException e) {
+            populateList();
+            setupList();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void populateList() throws InterruptedException, ExecutionException, IOException {
+        subprises = new StoreService().getSubprises();
+        it = subprises.body().iterator();
+        subprisesList = new ArrayList<>();
+        int i = 0;
+        while(it.hasNext()) {
+            i++;
+            Store store = (Store) it.next();
+            subprisesList.add(store);
+        }
+    }
 
-    private class StoreArrayAdapter extends ArrayAdapter<String> {
+    private void setupList() {
+        ArrayAdapter<Store> arrayAdapter = new ArrayAdapter<Store>(
+                getApplicationContext(),
+                R.layout.listview_item_row,
+                subprisesList );
+        lv.setAdapter(arrayAdapter);
+    }
 
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+    private class StoreArrayAdapter extends ArrayAdapter<Store> {
+        public StoreArrayAdapter(Context context, int textViewResourceId, List<Store> stores) {
+            super(context, textViewResourceId, stores);
+        }
 
-        public StoreArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)  {
+            if (convertView == null) {
+                // inflate your list view here
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_row, parent, false);
             }
-        }
+            Store store = getItem(position);
+            TextView txtName = (TextView) convertView.findViewById(R.id.txtName);
+            txtName.setText(store.getName());
+//            TextView txtId = (TextView) convertView.findViewById(R.id.txtId);
+//            txtId.setText("test");
 
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
+            return convertView;
         }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
     }
 }

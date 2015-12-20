@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import adapters.StoreArrayAdapter;
 import model.Store;
 import retrofit.Response;
 import services.StoreService;
@@ -58,31 +59,9 @@ public class AllStores extends Activity {
     }
 
     private void setupList() {
-        ArrayAdapter<Store> arrayAdapter = new ArrayAdapter<Store>(
-                getApplicationContext(),
+        StoreArrayAdapter adapter = new StoreArrayAdapter(getApplicationContext(),
                 R.layout.listview_item_row,
-                subprisesList );
-        lv.setAdapter(arrayAdapter);
-    }
-
-    private class StoreArrayAdapter extends ArrayAdapter<Store> {
-        public StoreArrayAdapter(Context context, int textViewResourceId, List<Store> stores) {
-            super(context, textViewResourceId, stores);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)  {
-            if (convertView == null) {
-                // inflate your list view here
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_row, parent, false);
-            }
-            Store store = getItem(position);
-            TextView txtName = (TextView) convertView.findViewById(R.id.txtName);
-            txtName.setText(store.getName());
-//            TextView txtId = (TextView) convertView.findViewById(R.id.txtId);
-//            txtId.setText("test");
-
-            return convertView;
-        }
+                subprisesList);
+        lv.setAdapter(adapter);
     }
 }

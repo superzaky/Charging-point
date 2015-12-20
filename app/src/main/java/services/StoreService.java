@@ -28,8 +28,6 @@ public class StoreService {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-
-
     SubpriseAPI subpriseAPI = retrofit.create(SubpriseAPI.class);
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -51,17 +49,6 @@ public class StoreService {
                 e.printStackTrace();
             }
             return stores;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            //Can't put the call here because this is the main thread
-            //System.out.println("onPreExecute first");
-        }
-
-        @Override
-        protected void onPostExecute(Response<List<Store>> result) {
-            //Can't put the call here because this is the main thread
         }
     }
 }

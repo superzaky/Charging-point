@@ -1,14 +1,17 @@
 package adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.yomac_000.chargingpoint.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 import model.Store;
@@ -16,24 +19,97 @@ import model.Store;
 /**
  * Created by yomac_000 on 20-12-2015.
  */
-public class StoreArrayAdapter extends ArrayAdapter<Store> {
+public class StoreArrayAdapter extends BaseExpandableListAdapter {
+    private List<Store> _listDataHeader; // header titles
+    // child data in format of header title, child title
+    private HashMap<Store, List<Store>> _listDataChild;
+    private Context _context;
 
-    public StoreArrayAdapter(Context context, int textViewResourceId, List<Store> stores) {
-        super(context, textViewResourceId, stores);
+    public StoreArrayAdapter(Context context, List<Store> listDataHeader, HashMap<Store, List<Store>> listChildData) {
+        //super(context, textViewResourceId, stores); //hier ben je
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this._listDataChild = listChildData;
+    }
+
+
+    @Override
+    public Object getChild(int groupPosition, int childPosititon) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .get(childPosititon);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)  {
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
+
+        final String childText = (String) getChild(groupPosition, childPosition);
+
         if (convertView == null) {
-            // inflate your list view here
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_item_row, parent, false);
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_item, null);
         }
-        Store store = getItem(position);
-        TextView txtName = (TextView) convertView.findViewById(R.id.txtName);
-        txtName.setText(store.getName());
-        TextView txtId = (TextView) convertView.findViewById(R.id.txtId);
-        txtId.setText("Facebook ID: " + store.getFacebookID());
+
+        TextView txtListChild = (TextView) convertView
+                .findViewById(R.id.lblListItem);
+
+        txtListChild.setText(childText);
+        return convertView;
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .size();
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return this._listDataHeader.get(groupPosition);
+    }
+
+    @Override
+    public int getGroupCount() {
+        return this._listDataHeader.size();
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        String headerTitle = (String) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_group, null);
+        }
+
+        TextView lblListHeader = (TextView) convertView
+                .findViewById(R.id.txtId);
+        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setText(headerTitle);
 
         return convertView;
     }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
 }

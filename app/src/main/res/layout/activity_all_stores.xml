@@ -6,9 +6,8 @@
     android:padding="25dp"
     >
 
-    <ListView
-        android:layout_width="match_parent"
+    <ExpandableListView
+        android:id="@+id/store_list"
         android:layout_height="wrap_content"
-        android:id="@+id/store_list">
-    </ListView>
+        android:layout_width="match_parent"/>
 </LinearLayout>

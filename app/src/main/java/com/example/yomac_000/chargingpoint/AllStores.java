@@ -3,12 +3,8 @@ package com.example.yomac_000.chargingpoint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,17 +19,20 @@ import retrofit.Response;
 import services.StoreService;
 
 public class AllStores extends Activity {
-    private ListView lv;
+    private ExpandableListView expListView;
     Context context;
     Response<List<Store>> subprises;
     Iterator it;
     List<Store> subprisesList;
+    List<Store> listStoreHeader;
+    HashMap<Store, List<Store>> listStoreChild;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_stores);
-        lv = (ListView) findViewById(R.id.store_list);
+        expListView = (ExpandableListView) findViewById(R.id.store_list);
         try {
             populateList();
             setupList();
@@ -50,18 +49,20 @@ public class AllStores extends Activity {
         subprises = new StoreService().getSubprises();
         it = subprises.body().iterator();
         subprisesList = new ArrayList<>();
+        listStoreChild = new HashMap<>();
         int i = 0;
         while(it.hasNext()) {
-            i++;
             Store store = (Store) it.next();
             subprisesList.add(store);
+            listStoreChild.put(subprisesList.get(i), (List<Store>) store);
+            i++;
         }
     }
 
     private void setupList() {
         StoreArrayAdapter adapter = new StoreArrayAdapter(getApplicationContext(),
-                R.layout.listview_item_row,
-                subprisesList);
-        lv.setAdapter(adapter);
+                subprisesList,
+                listStoreChild);
+        expListView.setAdapter(adapter);
     }
 }

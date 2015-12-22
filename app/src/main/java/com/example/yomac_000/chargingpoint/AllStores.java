@@ -24,9 +24,7 @@ public class AllStores extends Activity {
     Response<List<Store>> subprises;
     Iterator it;
     List<Store> subprisesList;
-    List<Store> listStoreHeader;
-    HashMap<Store, List<Store>> listStoreChild;
-
+    HashMap<Store, List<Store>> subprisesContentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +47,12 @@ public class AllStores extends Activity {
         subprises = new StoreService().getSubprises();
         it = subprises.body().iterator();
         subprisesList = new ArrayList<>();
-        listStoreChild = new HashMap<>();
+        subprisesContentList = new HashMap<>();
         int i = 0;
         while(it.hasNext()) {
             Store store = (Store) it.next();
             subprisesList.add(store);
-            listStoreChild.put(subprisesList.get(i), (List<Store>) store);
+            subprisesContentList.put(subprisesList.get(i), subprisesList);
             i++;
         }
     }
@@ -62,7 +60,7 @@ public class AllStores extends Activity {
     private void setupList() {
         StoreArrayAdapter adapter = new StoreArrayAdapter(getApplicationContext(),
                 subprisesList,
-                listStoreChild);
+                subprisesContentList);
         expListView.setAdapter(adapter);
     }
 }

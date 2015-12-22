@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     Button btnChargingPointsMapScreen;
     Button btnChargingPointsScreen;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +21,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch(v.getId()) {
                     case R.id.btnLinkToChargingPointsMapScreen:
-
+                        intent = new Intent(getApplicationContext(),
+                                MapsActivity.class);
+                        startActivity(intent);
+                        finish();
                         break;
                     case R.id.btnLinkToChargingPointsScreen:
-                        Intent i = new Intent(getApplicationContext(),
+                        intent = new Intent(getApplicationContext(),
                                 AllStores.class);
-                        startActivity(i);
+                        startActivity(intent);
                         finish();
                         break;
                 }

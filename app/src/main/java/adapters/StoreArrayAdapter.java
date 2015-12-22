@@ -1,11 +1,11 @@
 package adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
@@ -20,63 +20,35 @@ import model.Store;
  * Created by yomac_000 on 20-12-2015.
  */
 public class StoreArrayAdapter extends BaseExpandableListAdapter {
-    private List<Store> _listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<Store, List<Store>> _listDataChild;
-    private Context _context;
+    private List<Store> listDataHeaders;
+    private HashMap<Store, List<Store>> listDataChildren;
+    private Context context;
 
-    public StoreArrayAdapter(Context context, List<Store> listDataHeader, HashMap<Store, List<Store>> listChildData) {
-        //super(context, textViewResourceId, stores); //hier ben je
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
-    }
-
-
-    @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+    public StoreArrayAdapter(Context context, List<Store> listDataHeaders, HashMap<Store, List<Store>> listDataChildren) {
+        this.context = context;
+        this.listDataHeaders = listDataHeaders;
+        this.listDataChildren = listDataChildren;
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
-
-        final String childText = (String) getChild(groupPosition, childPosition);
-
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
-        }
-
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-
-        txtListChild.setText(childText);
-        return convertView;
+    public int getGroupCount() {
+        return this.listDataHeaders.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.listDataChildren.get(this.listDataHeaders.get(groupPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.listDataHeaders.get(groupPosition);
     }
 
     @Override
-    public int getGroupCount() {
-        return this._listDataHeader.size();
+    public Store getChild(int groupPosition, int childPosition) {
+        return this.listDataChildren.get(this.listDataHeaders.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -85,31 +57,47 @@ public class StoreArrayAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Store store = (Store) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
-
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.txtId);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        TextView tvID = (TextView) convertView.findViewById(R.id.txtId);
+        tvID.setText("Facebook ID: " + store.getFacebookID());
+        TextView tvName = (TextView) convertView.findViewById(R.id.txtName);
+        tvName.setText(store.getName());
 
         return convertView;
     }
 
     @Override
-    public boolean hasStableIds() {
-        return false;
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final String itemTitle = getChild(childPosition, groupPosition).getFacebookID();
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this.context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_item, null);
+        }
+        TextView title = (TextView) convertView.findViewById(R.id.lblListItem);
+        title.setText(itemTitle);
+
+        return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
 }

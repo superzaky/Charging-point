@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
                 switch(v.getId()) {
                     case R.id.btnLinkToChargingPointsMapScreen:
                         intent = new Intent(getApplicationContext(),
-                                MapsActivity.class);
+                                AllStoresOnMaps.class);
                         startActivity(intent);
                         finish();
                         break;

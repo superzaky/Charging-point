@@ -1,6 +1,7 @@
 package com.example.yomac_000.chargingpoint;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
@@ -22,6 +23,7 @@ public class AllStores extends Activity {
     Iterator it;
     ParentStore parentStore;
     List<ParentStore> parentStoresList;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,14 @@ public class AllStores extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        intent = new Intent(getApplicationContext(),
+                MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void populateList() throws InterruptedException, ExecutionException, IOException {
         subprises = new StoreService().getSubprises();
         it = subprises.body().iterator();
@@ -49,7 +59,8 @@ public class AllStores extends Activity {
         while(it.hasNext()) {
             Store store = (Store) it.next();
             if (store != null) {
-                parentStore.getChildStoresList().add(i, store);
+                //parentStore.getChildStoresList().add(i, store);
+                parentStore.getChildStoresList().add(store);
             }
             parentStoresList.add(parentStore);
             i++;

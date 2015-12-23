@@ -84,8 +84,8 @@ public class StoreArrayAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
-        final Store store = (Store) getChild(groupPosition, groupPosition);
-        //final Store store = (Store) getChild(groupPosition, childPosition);
+        //final Store store = (Store) getChild(groupPosition, groupPosition);
+        final Store store = (Store) getChild(groupPosition, childPosition);
         TextView title = (TextView) convertView.findViewById(R.id.lblListItem);
         title.setText(store.getFacebookID());
 

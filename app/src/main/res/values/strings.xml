@@ -3,4 +3,5 @@
     <string name="app_title">Store locations</string>
     <string name="btn_maps">Store locations on Google maps</string>
     <string name="btn_list_view">Store locations in a list view</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCeRkaT6lz2yAi6S0pMpDQxMJz3-iL5pEI</string>
 </resources>

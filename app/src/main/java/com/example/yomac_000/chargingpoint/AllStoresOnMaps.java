@@ -9,18 +9,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import model.ParentStore;
+import adapters.PopupAdapter;
 import model.Store;
 import retrofit.Response;
 import services.StoreService;
@@ -31,8 +31,6 @@ import services.StoreService;
 public class AllStoresOnMaps extends FragmentActivity implements OnMapReadyCallback {
     Response<List<Store>> subprises;
     Iterator it;
-    ParentStore parentStore;
-    List<ParentStore> parentStoresList;
     Intent intent;
 
     @Override
@@ -64,8 +62,6 @@ public class AllStoresOnMaps extends FragmentActivity implements OnMapReadyCallb
             e.printStackTrace();
         }
         it = subprises.body().iterator();
-        parentStore = new ParentStore();
-        parentStoresList = new ArrayList<>();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         while(it.hasNext()) {
             Store store = (Store) it.next();
@@ -74,15 +70,19 @@ public class AllStoresOnMaps extends FragmentActivity implements OnMapReadyCallb
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title(store.getName())
-                        .snippet(store.getStreet()));
-                //marker.showInfoWindow();
+                        .snippet("Facebook ID: " + store.getFacebookID() + "\n" +
+                                store.getStreet() + "\n" +
+                                store.getZipCode() + "\n" +
+                                store.getCity())
+                        .icon(BitmapDescriptorFactory
+                                .fromResource(R.drawable.ic_launcher)));
+                googleMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
                 builder.include(marker.getPosition());
             }
         }
         LatLngBounds bounds = builder.build();
         int padding = 0; // offset from edges of the map in pixels
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
         googleMap.moveCamera(cu);
     }
 }

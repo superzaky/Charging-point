@@ -16,7 +16,7 @@ public class PopupAdapter implements GoogleMap.InfoWindowAdapter {
     private View popup=null;
     private LayoutInflater inflater=null;
 
-    PopupAdapter(LayoutInflater inflater) {
+    public PopupAdapter(LayoutInflater inflater) {
         this.inflater=inflater;
     }
 

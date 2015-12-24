@@ -6,11 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-
 import com.example.yomac_000.chargingpoint.R;
-
 import java.util.List;
-
 import model.ParentStore;
 import model.Store;
 

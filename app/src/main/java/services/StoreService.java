@@ -5,10 +5,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import api.SubpriseAPI;
 import model.Store;
 import retrofit.Call;
@@ -41,7 +39,6 @@ public class StoreService {
     private class LongOperation extends AsyncTask<String, Void, Response<List<Store>>> {
         @Override
         protected Response<List<Store>> doInBackground(String... params) {
-            //System.out.println("doInBackground executed second");
             try {
                 Call<List<Store>> call = subpriseAPI.listStores();
                 stores=call.execute();

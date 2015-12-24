@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnChargingPointsMapScreen = (Button) findViewById(R.id.btnLinkToChargingPointsMapScreen);
         btnChargingPointsScreen = (Button) findViewById(R.id.btnLinkToChargingPointsScreen);
-
         View.OnClickListener myOnlyhandler = new View.OnClickListener() {
             public void onClick(View v) {
                 switch(v.getId()) {
@@ -35,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
         btnChargingPointsMapScreen.setOnClickListener(myOnlyhandler);
         btnChargingPointsScreen.setOnClickListener(myOnlyhandler);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

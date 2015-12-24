@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.yomac_000.chargingpoint.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -31,9 +30,7 @@ public class PopupAdapter implements GoogleMap.InfoWindowAdapter {
         if (popup == null) {
             popup=inflater.inflate(R.layout.popup, null);
         }
-
         TextView tv=(TextView)popup.findViewById(R.id.title);
-
         tv.setText(marker.getTitle());
         tv=(TextView)popup.findViewById(R.id.snippet);
         tv.setText(marker.getSnippet());

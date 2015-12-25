@@ -49,7 +49,7 @@ public class AllStoresOnMaps extends FragmentActivity implements OnMapReadyCallb
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         try {
             subprises = new StoreService().getSubprises();
         } catch (IOException e) {
@@ -78,9 +78,15 @@ public class AllStoresOnMaps extends FragmentActivity implements OnMapReadyCallb
                 builder.include(marker.getPosition());
             }
         }
-        LatLngBounds bounds = builder.build();
+        final LatLngBounds bounds = builder.build();
         int padding = 0; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.moveCamera(cu);
+        final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                googleMap.moveCamera(cu);
+            }
+        });
     }
 }

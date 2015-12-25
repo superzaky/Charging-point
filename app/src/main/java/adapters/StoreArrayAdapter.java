@@ -1,13 +1,19 @@
 package adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
 import com.example.yomac_000.chargingpoint.R;
+
 import java.util.List;
+
 import model.ParentStore;
 import model.Store;
 
@@ -58,6 +64,7 @@ public class StoreArrayAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -68,8 +75,10 @@ public class StoreArrayAdapter extends BaseExpandableListAdapter {
         final ParentStore parentStore = (ParentStore) getGroup(groupPosition);
         TextView tvID = (TextView) convertView.findViewById(R.id.txtId);
         tvID.setText("Facebook ID: " + parentStore.getChildStoresList().get(groupPosition).getFacebookID());
+        tvID.setTextColor(ContextCompat.getColor(context, R.color.yellow));
         TextView tvName = (TextView) convertView.findViewById(R.id.txtName);
         tvName.setText(parentStore.getChildStoresList().get(groupPosition).getName());
+        tvName.setTextColor(ContextCompat.getColor(context, R.color.yellow));
 
         return convertView;
     }
@@ -85,6 +94,7 @@ public class StoreArrayAdapter extends BaseExpandableListAdapter {
         final Store store = (Store) getChild(groupPosition, childPosition);
         TextView title = (TextView) convertView.findViewById(R.id.lblListItem);
         title.setText(store.getFacebookID());
+        title.setTextColor(ContextCompat.getColor(context, R.color.white));
 
         return convertView;
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.yomac_000.chargingpoint" >
+    package="com.example.yomac_000.storelocator" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
@@ -12,15 +12,15 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".MainActivity" >
+        <activity android:name="com.example.yomac_000.storelocator.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllStores" >
+        <activity android:name="com.example.yomac_000.storelocator.AllStores" >
         </activity>
-        <activity android:name=".AllStoresOnMaps" >
+        <activity android:name="com.example.yomac_000.storelocator.AllStoresOnMaps" >
         </activity>
     </application>
 </manifest>

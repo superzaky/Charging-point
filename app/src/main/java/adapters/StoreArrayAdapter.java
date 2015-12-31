@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.example.yomac_000.chargingpoint.R;
+import com.example.yomac_000.storelocator.R;
 
 import java.util.List;
 

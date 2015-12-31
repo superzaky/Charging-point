@@ -1,4 +1,4 @@
-package com.example.yomac_000.chargingpoint;
+package com.example.yomac_000.storelocator;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
